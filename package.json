@@ -27,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/Daninet/buffer-collection/issues"
   },
-  "homepage": "https://github.com/Daninet/buffer-collection#readme"
+  "homepage": "https://github.com/Daninet/buffer-collection#readme",
+  "devDependencies": {
+    "jest": "^22.0.4"
+  }
 }
