@@ -213,6 +213,15 @@ test('last-index-of', () => {
   expect(buf.lastIndexOf('abc', 0)).toBe(0);
 });
 
+test('last-index-of-bad-param', () => {
+  const buf = new BufferCollection();
+  buf.push('abcd');
+  expect(buf.lastIndexOf('abcdabcd')).toBe(-1);
+  expect(buf.lastIndexOf('a', -1)).toBe(-1);
+  expect(buf.lastIndexOf('c', 2)).toBe(2);
+  expect(buf.lastIndexOf('c', 1)).toBe(-1);
+});
+
 test('includes', () => {
   const buf = new BufferCollection();
   buf.push('abcd');
