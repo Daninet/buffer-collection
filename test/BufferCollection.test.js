@@ -23,6 +23,32 @@ test('get-position-by-byte-offset', () => {
   expect(buf2._getPositionByByteOffset(1)).toBe(null);
 });
 
+test('increment-position', () => {
+  const buf = new BufferCollection();
+  buf.push('abc');
+  buf.push('x');
+  buf.push('y');
+  buf.push('12');
+  let position = buf._getPositionByByteOffset(0);
+  expect(position).toEqual({key: 0, offset: 0});
+  position = buf._incrementPosition(position);
+  expect(position).toEqual({key: 0, offset: 1});
+  position = buf._incrementPosition(position);
+  expect(position).toEqual({key: 0, offset: 2});
+  position = buf._incrementPosition(position);
+  expect(position).toEqual({key: 1, offset: 0});
+  position = buf._incrementPosition(position);
+  expect(position).toEqual({key: 2, offset: 0});
+  position = buf._incrementPosition(position);
+  expect(position).toEqual({key: 3, offset: 0});
+  position = buf._incrementPosition(position);
+  expect(position).toEqual({key: 3, offset: 1});
+  position = buf._incrementPosition(position);
+  expect(position).toBe(null);
+  position = buf._incrementPosition(position);
+  expect(position).toBe(null);
+});
+
 
 test('simple-read', () => {
   const buf = new BufferCollection();
@@ -371,17 +397,6 @@ test('toString', () => {
   buf.push('y');
   buf.push('abcd1234');
   expect(buf.toString()).toBe('abcdxyabcd1234');
-});
-
-test('_readBytes', () => {
-  const buf = new BufferCollection();
-  buf.push('abcd');
-  buf.push('x');
-  buf.push('y');
-  buf.push('abcd1234');
-  expect(buf._readBytes(4, 0).toString()).toBe('abcd');
-  expect(buf._readBytes(10, 3).toString()).toBe('dxyabcd123');
-  expect(buf._readBytes(2, 4).toString()).toBe('xy');
 });
 
 test('readUInt8', () => {
