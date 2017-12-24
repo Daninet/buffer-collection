@@ -373,6 +373,17 @@ test('toString', () => {
   expect(buf.toString()).toBe('abcdxyabcd1234');
 });
 
+test('_readBytes', () => {
+  const buf = new BufferCollection();
+  buf.push('abcd');
+  buf.push('x');
+  buf.push('y');
+  buf.push('abcd1234');
+  expect(buf._readBytes(4, 0).toString()).toBe('abcd');
+  expect(buf._readBytes(10, 3).toString()).toBe('dxyabcd123');
+  expect(buf._readBytes(2, 4).toString()).toBe('xy');
+});
+
 test('readUInt8', () => {
   const b1 = Buffer.from([255, 240]);
   const b2 = Buffer.from([1]);
