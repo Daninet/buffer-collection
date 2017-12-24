@@ -127,6 +127,12 @@ test('verify-match', () => {
   expect(buf._verifyMatch(Buffer.from('cdefg112'), 0, 2, 2)).toBe(false);
   expect(buf._verifyMatch(Buffer.from('cdefgh12345'), 0, 2, 2)).toBe(true);
   expect(buf._verifyMatch(Buffer.from('cdefgh123456asdfasdf'), 0, 2, 2)).toBe(false);
+  const buf2 = new BufferCollection();
+  buf2.push('abcdd');
+  buf2.push('xdfdf');
+  expect(buf2._verifyMatch(Buffer.from('dx'), 1, 0, 5)).toBe(false);
+  expect(buf2._verifyMatch(Buffer.from('dx'), 0, 4, 4)).toBe(true);
+  expect(buf2._verifyMatch(Buffer.from('dx'), 0, 3, 3)).toBe(false);
 });
 
 
@@ -170,6 +176,7 @@ test('index-of-position', () => {
   buf.push('abcd');
   expect(buf.indexOf('cd')).toBe(2);
   expect(buf.indexOf('cd', 3)).toBe(10);
+  expect(buf.indexOf('yx', 0)).toBe(5);
   expect(buf.indexOf('xya', 0)).toBe(6);
   expect(buf.indexOf('xya', 1)).toBe(6);
   expect(buf.indexOf('xy', 1)).toBe(4);
@@ -177,6 +184,33 @@ test('index-of-position', () => {
   expect(buf.indexOf('xy', 4)).toBe(4);
   expect(buf.indexOf('xy', 5)).toBe(6);
   expect(buf.indexOf('xy', 7)).toBe(-1);
+});
+
+test('last-index-of', () => {
+  const buf = new BufferCollection();
+  buf.push('abcdd');
+  expect(buf.lastIndexOf('x')).toBe(-1);
+  expect(buf.lastIndexOf('a')).toBe(0);
+  expect(buf.lastIndexOf('d')).toBe(4);
+  expect(buf.lastIndexOf('d', 3)).toBe(3);
+  expect(buf.lastIndexOf('d', 2)).toBe(-1);
+  expect(buf.lastIndexOf('ac')).toBe(-1);
+  expect(buf.lastIndexOf('cd')).toBe(2);
+  expect(buf.lastIndexOf('cda')).toBe(-1);
+  buf.push('xdfdfa');
+  expect(buf.lastIndexOf('dx')).toBe(4);
+  expect(buf.lastIndexOf('dxdfdf')).toBe(4);
+  expect(buf.lastIndexOf('dxdfdfx')).toBe(-1);
+  expect(buf.lastIndexOf('xdfdf')).toBe(5);
+  buf.push('b');
+  buf.push('c');
+  buf.push('1');
+  expect(buf.lastIndexOf('abc')).toBe(10);
+  expect(buf.lastIndexOf('abc', 11)).toBe(10);
+  expect(buf.lastIndexOf('abc', 10)).toBe(10);
+  expect(buf.lastIndexOf('abc', 9)).toBe(0);
+  expect(buf.lastIndexOf('abc', 3)).toBe(0);
+  expect(buf.lastIndexOf('abc', 0)).toBe(0);
 });
 
 test('includes', () => {
