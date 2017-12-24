@@ -1,0 +1,20 @@
+buffer-collection
+=======
+
+Treat multiple Buffers as a single contiguous Buffer.
+
+[![build status](https://secure.travis-ci.org/substack/node-buffers.png)](http://travis-ci.org/substack/node-buffers)
+
+
+
+Install
+=======
+    npm i buffer-collection
+
+
+Methods
+=======
+
+License
+=======
+MIT
