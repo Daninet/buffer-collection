@@ -1,4 +1,6 @@
-const BufferCollection = require('./BufferCollection');
+'use strict';
+
+const BufferCollection = require('../');
 
 test('get-position-by-byte-offset', () => {
   const buf = new BufferCollection();
