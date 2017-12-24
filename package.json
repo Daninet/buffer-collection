@@ -1,0 +1,31 @@
+{
+  "name": "buffer-collection",
+  "version": "0.0.1",
+  "description": "Treat multiple Buffers as a single contiguous Buffer.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Daninet/buffer-collection.git"
+  },
+  "keywords": [
+    "buffers",
+    "multiple",
+    "buffer",
+    "contiguous",
+    "api",
+    "array",
+    "buffer",
+    "collection",
+    "buffer",
+    "list"
+  ],
+  "author": "Daniel Biro",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Daninet/buffer-collection/issues"
+  },
+  "homepage": "https://github.com/Daninet/buffer-collection#readme"
+}
