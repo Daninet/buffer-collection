@@ -392,6 +392,39 @@ test('equals', () => {
   expect(buf.count).toBe(3);
 });
 
+test('compare', () => {
+  const buf = new BufferCollection();
+  buf.push('abcd');
+  buf.push('x');
+  buf.push('y');
+
+  const buf2 = new BufferCollection();
+  buf2.push('12cd');
+  buf2.push('x');
+  buf2.push('6');
+
+  expect(buf.compare(buf2) > 0).toBe(true);
+  expect(buf.compare(buf2, 1) > 0).toBe(true);
+  expect(buf.compare(buf2, 2) < 0).toBe(true);
+  expect(buf.compare(buf2, 3) < 0).toBe(true);
+  expect(buf.compare(buf2, 4) < 0).toBe(true);
+  expect(buf.compare(buf2, 2, 3, 2, 3) === 0).toBe(true);
+  expect(buf.compare(buf2, 2, 3, 2, 4) > 0).toBe(true);
+  expect(buf.compare(buf2, 2, 3, 2, 2) < 0).toBe(true);
+  expect(buf.compare(buf2, 2, 5, 2, 5) === 0).toBe(true);
+  expect(buf.compare(buf2, 2, 6, 2, 6) > 0).toBe(true);
+  expect(buf.compare(buf2, 2, 6, 2, 5) < 0).toBe(true);
+  expect(buf.compare(buf2, 2, 3, 2, 5) > 0).toBe(true);
+  expect(buf.compare(buf2, 2, 5, 2, 4) < 0).toBe(true);
+  expect(buf.compare(buf2, 2, 5, 2) > 0).toBe(true);
+  expect(buf.compare(buf2, 2, 4, 1) < 0).toBe(true);
+  expect(buf.compare(buf2, 2, 4) < 0).toBe(true);
+  expect(buf.compare(buf2, 2, 3) < 0).toBe(true);
+  expect(buf.compare(buf2, 2, 2) > 0).toBe(true);
+
+  expect(buf.compare(Buffer.from('12cdx6'), 2, 2) > 0).toBe(true);
+});
+
 test('toString', () => {
   const buf = new BufferCollection();
   buf.push('abcd');

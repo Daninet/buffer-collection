@@ -5,8 +5,9 @@ buffer-collection
 [![Coverage Status](https://coveralls.io/repos/github/Daninet/buffer-collection/badge.svg?branch=master)](https://coveralls.io/github/Daninet/buffer-collection?branch=master)
 [![license](https://img.shields.io/github/license/Daninet/buffer-collection.svg)](https://github.com/Daninet/buffer-collection/blob/master/LICENSE)
 
-
 Treat multiple Buffers as a single contiguous Buffer.
+
+ALPHA VERSION! Development in progress.
 
 Install
 =======
