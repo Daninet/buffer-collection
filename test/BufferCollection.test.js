@@ -302,6 +302,8 @@ test('fill', () => {
   expect(buf.toString()).toBe('ab123451234512');
   buf.fill('xy', 4, 9);
   expect(buf.toString()).toBe('ab12xyxyx34512');
+  buf.fill('xy', 11, 14);
+  expect(buf.toString()).toBe('ab12xyxyx34xyx');  
 });
 
 test('copy', () => {
@@ -446,4 +448,23 @@ test('iterator', () => {
   }
   expect(arr.length).toBe(14);
   expect(arr.join('')).toBe('abcdxyabcd1234');
+});
+
+test('inspect', () => {
+  const buf = new BufferCollection();
+  buf.push(Buffer.from('123456789012345678901234567890'));
+  expect(buf.inspect()).toBe('<BufferCollection 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30>');
+  buf.push(Buffer.from('123456789012345678901234567890'));
+  expect(buf.inspect()).toBe('<BufferCollection 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30 ... >');
+});
+
+test('to-json', () => {
+  const buf = new BufferCollection();
+  buf.push(Buffer.from([1, 2, 3]));
+  buf.push(Buffer.from([4, 5, 6]));
+  buf.push(Buffer.from([7]));
+  expect(buf.toJSON()).toEqual({
+    type: 'Buffer',
+    data: [1, 2, 3, 4, 5, 6, 7]
+  });
 });

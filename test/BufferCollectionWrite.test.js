@@ -12,8 +12,18 @@ test('write-basic', () => {
     buf.push(Buffer.alloc(2));
     return buf;
   }
-  
+
   let buf = makeBuf();
+  expect(buf.writeFloatBE(1, 1)).toBe(5);
+  expect(buf.toBuffer().equals(Buffer.from([0, 63, 128, 0, 0, 0, 0, 0, 0]))).toBe(true);
+  expect(buf.writeFloatLE(1, 1)).toBe(5);
+  expect(buf.toBuffer().equals(Buffer.from([0, 0, 0, 128, 63, 0, 0, 0, 0]))).toBe(true);
+  expect(buf.writeDoubleBE(1, 1)).toBe(9);
+  expect(buf.toBuffer().equals(Buffer.from([0, 63, 240, 0, 0, 0, 0, 0, 0]))).toBe(true);
+  expect(buf.writeDoubleLE(1, 1)).toBe(9);
+  expect(buf.toBuffer().equals(Buffer.from([0, 0, 0, 0, 0, 0, 0, 240, 63]))).toBe(true);
+  
+  buf = makeBuf();
   expect(buf.writeInt8(1, 0)).toBe(1);
   expect(buf.toBuffer().equals(Buffer.from([1, 0, 0, 0, 0, 0, 0, 0, 0]))).toBe(true);
 
