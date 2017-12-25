@@ -17,6 +17,24 @@ Install
 Methods
 =======
 
+buf.push(element)
+-------
+Adds a new Buffer to the end of the current collection.
+
+buf.count
+-------
+Returns the number of Buffer instances in collection.
+
+buf.slice([start[, end]])
+-------
+Returns a new BufferCollection that references the same memory as the original, but offset and cropped by the start and end indices.
+
+
+\+ Methods from Node.js Buffer API
+=======
+
+These methods were adapted to work on multiple Buffer instances without merging them into one contiguous memory section.
+
 buf.compare(target[, targetStart[, targetEnd[, sourceStart[, sourceEnd]]]])
 -------
 See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_compare_target_targetstart_targetend_sourcestart_sourceend) regarding the usage.
