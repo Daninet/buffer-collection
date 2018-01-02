@@ -244,19 +244,25 @@ test('last-index-of', () => {
   buf.push('b');
   buf.push('c');
   buf.push('1');
+  buf.push('ab');
   expect(buf.lastIndexOf('abc')).toBe(10);
   expect(buf.lastIndexOf('abc', 11)).toBe(10);
   expect(buf.lastIndexOf('abc', 10)).toBe(10);
   expect(buf.lastIndexOf('abc', 9)).toBe(0);
   expect(buf.lastIndexOf('abc', 3)).toBe(0);
   expect(buf.lastIndexOf('abc', 0)).toBe(0);
+  expect(buf.lastIndexOf('abc', -1)).toBe(10);
+  expect(buf.lastIndexOf('abc', -6)).toBe(10);
+  expect(buf.lastIndexOf('abc', -7)).toBe(0);
+  expect(buf.lastIndexOf('abc', -16)).toBe(0);
+  expect(buf.lastIndexOf('abc', -17)).toBe(-1);
+  expect(buf.lastIndexOf('abc', -170)).toBe(-1);
 });
 
 test('last-index-of-bad-param', () => {
   const buf = new BufferCollection();
   buf.push('abcd');
   expect(buf.lastIndexOf('abcdabcd')).toBe(-1);
-  expect(buf.lastIndexOf('a', -1)).toBe(-1);
   expect(buf.lastIndexOf('c', 2)).toBe(2);
   expect(buf.lastIndexOf('c', 1)).toBe(-1);
 });

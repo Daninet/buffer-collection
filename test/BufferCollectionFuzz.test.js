@@ -62,19 +62,22 @@ test('index-of', () => {
   }
 });
 
-// test('last-index-of', () => {
-//   for (let i = 0; i < N; i++) {
-//     const bufCol = makeBuf();
-//     const buf = bufCol.toBuffer();
+test('last-index-of', () => {
+  for (let i = 0; i < N; i++) {
+    const bufCol = makeBuf();
+    const buf = bufCol.toBuffer();
 
-//     let needle = '';
-//     while (needle.length === 0) {
-//       needle = makeBuf().slice(0, randInt(1, 10));
-//     }
-//     expect(bufCol.lastIndexOf(needle)).toBe(buf.lastIndexOf(needle.toBuffer()));
-//     expect(bufCol.lastIndexOf(needle, i + 1)).toBe(buf.lastIndexOf(needle.toBuffer(), i + 1));
-//   }
-// });
+    let needle = BufferCollection.from('');
+    while (needle.length === 0 && bufCol.length !== 0) {
+      const a = randInt(0, bufCol.length);
+      const b = randInt(a, bufCol.length);
+      needle = bufCol.slice(a, b);
+    }
+    expect(bufCol.lastIndexOf(needle)).toBe(buf.lastIndexOf(needle.toBuffer()));
+    expect(bufCol.lastIndexOf(needle, i + 1)).toBe(buf.lastIndexOf(needle.toBuffer(), i + 1));
+    expect(bufCol.lastIndexOf(needle, i - 1)).toBe(buf.lastIndexOf(needle.toBuffer(), i - 1));
+  }
+});
 
 test('slice', () => {
   for (let i = 0; i < N; i++) {
