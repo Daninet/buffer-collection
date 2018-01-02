@@ -489,6 +489,11 @@ test('to-string', () => {
   buf.push('y');
   buf.push('abcd1234');
   expect(buf.toString()).toBe('abcdxyabcd1234');
+  expect(buf.toString('utf8', 0, 2)).toBe('ab');
+  expect(buf.toString('utf8', 2, 6)).toBe('cdxy');
+  expect(buf.toString('utf8', 5, 9)).toBe('yabc');
+  expect(buf.toString('utf8', 5, 14)).toBe('yabcd1234');
+  expect(buf.toString('utf8', -10, 100)).toBe('abcdxyabcd1234');
 });
 
 test('read-uint8', () => {
