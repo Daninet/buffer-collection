@@ -202,6 +202,13 @@ test('index-of-position', () => {
   buf.push('abcd');
   expect(buf.indexOf('cd')).toBe(2);
   expect(buf.indexOf('cd', 3)).toBe(10);
+  expect(buf.indexOf('cd', 11)).toBe(-1);
+  expect(buf.indexOf('cd', -1)).toBe(-1);
+  expect(buf.indexOf('cd', -2)).toBe(10);
+  expect(buf.indexOf('cd', -8)).toBe(10);
+  expect(buf.indexOf('cd', -9)).toBe(10);
+  expect(buf.indexOf('cd', -10)).toBe(2);
+  expect(buf.indexOf('cd', -100)).toBe(2);
   expect(buf.indexOf('yx', 0)).toBe(5);
   expect(buf.indexOf('xya', 0)).toBe(6);
   expect(buf.indexOf('xya', 1)).toBe(6);
@@ -210,6 +217,12 @@ test('index-of-position', () => {
   expect(buf.indexOf('xy', 4)).toBe(4);
   expect(buf.indexOf('xy', 5)).toBe(6);
   expect(buf.indexOf('xy', 7)).toBe(-1);
+  const buf2 = BufferCollection.from('a');
+  expect(buf2.indexOf('a', 1)).toBe(-1);
+  expect(buf2.indexOf('a', 0)).toBe(0);
+  expect(buf2.indexOf('a', -1)).toBe(0);
+  expect(buf2.indexOf('a', -2)).toBe(0);
+  expect(buf2.indexOf('a', -3)).toBe(0);
 });
 
 test('last-index-of', () => {
@@ -434,7 +447,7 @@ test('compare', () => {
   expect(buf.compare(Buffer.from('12cdx6'), 2, 2) > 0).toBe(true);
 });
 
-test('toString', () => {
+test('to-string', () => {
   const buf = new BufferCollection();
   buf.push('abcd');
   buf.push('x');
@@ -443,7 +456,7 @@ test('toString', () => {
   expect(buf.toString()).toBe('abcdxyabcd1234');
 });
 
-test('readUInt8', () => {
+test('read-uint8', () => {
   const b1 = Buffer.from([255, 240]);
   const b2 = Buffer.from([1]);
   const b3 = Buffer.from([3, 9, 7]);
@@ -459,7 +472,7 @@ test('readUInt8', () => {
   expect(buf.readUInt8(5)).toBe(7);
 });
 
-test('writeUInt8', () => {
+test('write-uint8', () => {
   const b1 = Buffer.from('ab');
   const b2 = Buffer.from('c');
   const b3 = Buffer.from('def');
@@ -497,7 +510,7 @@ test('inspect', () => {
   buf.push(Buffer.from('123456789012345678901234567890'));
   expect(buf.inspect()).toBe('<BufferCollection 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30>');
   buf.push(Buffer.from('123456789012345678901234567890'));
-  expect(buf.inspect()).toBe('<BufferCollection 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30 ... >');
+  expect(buf.inspect()).toBe('<BufferCollection 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30 ... >');
 });
 
 test('to-json', () => {
