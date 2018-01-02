@@ -7,7 +7,7 @@ buffer-collection
 
 Treat multiple Buffers as a single contiguous Buffer.
 
-ALPHA VERSION! Development in progress.
+BETA VERSION! Development in progress.
 
 Install
 =======
@@ -25,15 +25,51 @@ buf.count
 -------
 Returns the number of Buffer instances in collection.
 
+buf.get(offset)
+-------
+Gets the byte value from the specified offset. Can be used as replacement for buf[offset]. Same as buf.readUInt8(offset)
+
+buf.set(offset, value)
+-------
+Sets the byte value at the specified offset. Can be used as replacement for buf[offset]. Same as buf.writeUInt8(value, offset)
+
+buf.shiftBuffer()
+-------
+Removes the first Buffer from collection and returns it. This method changes the length of the data of BufferCollection.
+
 buf.slice([start[, end]])
 -------
-Returns a new BufferCollection that references the same memory as the original, but offset and cropped by the start and end indices.
+Returns a new BufferCollection that references the same memory as the original, but offset and cropped by the start and end indices. Works similarly as slice method of Buffers.
 
 
 \+ Methods from Node.js Buffer API
 =======
 
 These methods were adapted to work on multiple Buffer instances without merging them into one contiguous memory section.
+
+Buffer.alloc(size[, fill[, encoding]])
+-------
+Allocates a new Buffer of size bytes. If fill is undefined, the Buffer will be zero-filled.
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_class_method_buffer_alloc_size_fill_encoding) regarding the usage.
+
+
+Buffer.allocUnsafe(size)
+-------
+Allocates a new Buffer of size bytes. The underlying memory for Buffer instances created in this way is not initialized. The contents of the newly created Buffer are unknown and may contain sensitive data.
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_class_method_buffer_allocunsafe_size) regarding the usage.
+
+
+Buffer.allocUnsafe(size)
+-------
+Allocates a new Buffer of size bytes. The underlying memory for Buffer instances created in this way is not initialized. The contents of the newly created Buffer are unknown and may contain sensitive data.
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_class_method_buffer_allocunsafe_size) regarding the usage.
+
+
+Buffer.allocUnsafeSlow(size)
+-------
+Allocates a new Buffer of size bytes. The underlying memory for Buffer instances created in this way is not initialized. Not using allocation pools.
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_class_method_buffer_allocunsafeslow_size) regarding the usage.
+
 
 buf.compare(target[, targetStart[, targetEnd[, sourceStart[, sourceEnd]]]])
 -------
@@ -128,6 +164,34 @@ buf.values()
 See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_values) regarding the usage.
 
 
+Unsupported Buffer methods
+=======
+
+Buffer.concat(list[, totalLength]) :x:
+
+buf[index] :x: - please use buf.get(index)
+
+buf.readIntBE(offset, byteLength[, noAssert]) :x:
+
+buf.readIntLE(offset, byteLength[, noAssert]) :x:
+
+buf.readUIntBE(offset, byteLength[, noAssert]) :x:
+
+buf.readUIntLE(offset, byteLength[, noAssert]) :x:
+
+buf.swap16() :x:
+
+buf.swap32() :x:
+
+buf.swap64() :x:
+
+buf.writeIntBE(value, offset, byteLength[, noAssert]) :x:
+
+buf.writeIntLE(value, offset, byteLength[, noAssert]) :x:
+
+buf.writeUIntBE(value, offset, byteLength[, noAssert]) :x:
+
+buf.writeUIntLE(value, offset, byteLength[, noAssert]) :x:
 
 License
 =======
