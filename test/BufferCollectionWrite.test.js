@@ -2,7 +2,26 @@
 
 const BufferCollection = require('../');
 
-test('write-basic', () => {
+test('write-simple', () => {
+  const buf = new BufferCollection();
+  buf.push('abcd');
+  buf.push('x');
+  buf.push('y');
+  buf.push('12345');
+
+  buf.write('po')
+  expect(buf.toString()).toBe('pocdxy12345');
+  buf.write('AB', 3)
+  expect(buf.toString()).toBe('pocABy12345');
+  buf.write('XZ', 4, 1)
+  expect(buf.toString()).toBe('pocAXy12345');
+  buf.write('II', 6, 0)
+  expect(buf.toString()).toBe('pocAXy12345');
+  buf.write('TR0', 9)
+  expect(buf.toString()).toBe('pocAXy123TR');
+});
+
+test('write-bytes', () => {
   function makeBuf() {
     const buf = new BufferCollection();
     buf.push(Buffer.alloc(1));
