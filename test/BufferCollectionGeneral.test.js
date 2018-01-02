@@ -325,6 +325,35 @@ test('fill', () => {
   expect(buf.toString()).toBe('ab12xyxyx34xyx');  
 });
 
+test('get', () => {
+  const buf = new BufferCollection();
+  buf.push('abcd');
+  buf.push('x');
+  buf.push('y');
+  buf.push('12345');
+  expect(String.fromCharCode(buf.get(0))).toBe('a');
+  expect(String.fromCharCode(buf.get(3))).toBe('d');
+  expect(String.fromCharCode(buf.get(4))).toBe('x');
+  expect(String.fromCharCode(buf.get(5))).toBe('y');
+  expect(String.fromCharCode(buf.get(6))).toBe('1');
+  expect(String.fromCharCode(buf.get(10))).toBe('5');
+});
+
+test('set', () => {
+  const buf = new BufferCollection();
+  buf.push('abcd');
+  buf.push('x');
+  buf.push('y');
+  buf.push('12345');
+
+  buf.set(0, '4'.charCodeAt(0));
+  expect(buf.toString()).toBe('4bcdxy12345');
+  buf.set(4, 'z'.charCodeAt(0));
+  expect(buf.toString()).toBe('4bcdzy12345');
+  buf.set(10, 'P'.charCodeAt(0));
+  expect(buf.toString()).toBe('4bcdzy1234P');
+});
+
 test('copy', () => {
   const buf = new BufferCollection();
   buf.push('abcd');
