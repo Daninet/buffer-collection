@@ -143,22 +143,22 @@ test('verify-match', () => {
   const buf = new BufferCollection();
   buf.push('abcdef');
   buf.push('g');
-  expect(buf._verifyMatch(Buffer.from('cd'), 0, 2, 2)).toBe(true);
-  expect(buf._verifyMatch(Buffer.from('cdef'), 0, 2, 2)).toBe(true);
-  expect(buf._verifyMatch(Buffer.from('cdefg'), 0, 2, 2)).toBe(true);
-  expect(buf._verifyMatch(Buffer.from('cd'), 0, 1, 2)).toBe(false);
-  expect(buf._verifyMatch(Buffer.from('g'), 1, 0, 6)).toBe(true);
+  expect(buf._verifyMatch(BufferCollection.from('cd'), 0, 2, 2)).toBe(true);
+  expect(buf._verifyMatch(BufferCollection.from('cdef'), 0, 2, 2)).toBe(true);
+  expect(buf._verifyMatch(BufferCollection.from('cdefg'), 0, 2, 2)).toBe(true);
+  expect(buf._verifyMatch(BufferCollection.from('cd'), 0, 1, 2)).toBe(false);
+  expect(buf._verifyMatch(BufferCollection.from('g'), 1, 0, 6)).toBe(true);
   buf.push('h12345');
-  expect(buf._verifyMatch(Buffer.from('cdefgh12'), 0, 2, 2)).toBe(true);
-  expect(buf._verifyMatch(Buffer.from('cdefg112'), 0, 2, 2)).toBe(false);
-  expect(buf._verifyMatch(Buffer.from('cdefgh12345'), 0, 2, 2)).toBe(true);
-  expect(buf._verifyMatch(Buffer.from('cdefgh123456asdfasdf'), 0, 2, 2)).toBe(false);
+  expect(buf._verifyMatch(BufferCollection.from('cdefgh12'), 0, 2, 2)).toBe(true);
+  expect(buf._verifyMatch(BufferCollection.from('cdefg112'), 0, 2, 2)).toBe(false);
+  expect(buf._verifyMatch(BufferCollection.from('cdefgh12345'), 0, 2, 2)).toBe(true);
+  expect(buf._verifyMatch(BufferCollection.from('cdefgh123456asdfasdf'), 0, 2, 2)).toBe(false);
   const buf2 = new BufferCollection();
   buf2.push('abcdd');
   buf2.push('xdfdf');
-  expect(buf2._verifyMatch(Buffer.from('dx'), 1, 0, 5)).toBe(false);
-  expect(buf2._verifyMatch(Buffer.from('dx'), 0, 4, 4)).toBe(true);
-  expect(buf2._verifyMatch(Buffer.from('dx'), 0, 3, 3)).toBe(false);
+  expect(buf2._verifyMatch(BufferCollection.from('dx'), 1, 0, 5)).toBe(false);
+  expect(buf2._verifyMatch(BufferCollection.from('dx'), 0, 4, 4)).toBe(true);
+  expect(buf2._verifyMatch(BufferCollection.from('dx'), 0, 3, 3)).toBe(false);
 });
 
 
@@ -329,7 +329,16 @@ test('slice', () => {
   expect(buf.slice(0).toString()).toBe('abcdxy123');
   expect(buf.slice(2, 3).toString()).toBe('c');
   expect(buf.slice(5, 7).toString()).toBe('y1');
+  expect(buf.slice(8, 9).toString()).toBe('3');
   expect(buf.slice(3).toString()).toBe('dxy123');
+  expect(buf.slice(-1).toString()).toBe('3');
+  expect(buf.slice(-5).toString()).toBe('xy123');
+  expect(buf.slice(-200, 6).toString()).toBe('abcdxy');
+  expect(buf.slice(-200, 6000).toString()).toBe('abcdxy123');
+  expect(buf.slice(-200, -3).toString()).toBe('abcdxy');
+  expect(buf.slice(-2, -5).toString()).toBe('');
+  expect(buf.slice(-2, 0).toString()).toBe('');
+  expect(buf.slice(-5, -3).toString()).toBe('xy');
 });
 
 test('entries', () => {
