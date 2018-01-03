@@ -102,6 +102,9 @@ test('simple-push', () => {
   expect(buf.read(7).toString()).toBe('abcdefg');
   expect(buf.length).toBe(0);
   expect(buf.count).toBe(0);
+  expect(buf.push(Buffer.from('')).length).toBe(0);
+  expect(buf.push(BufferCollection.from('')).length).toBe(0);
+  expect(buf.push('').length).toBe(0);
 });
 
 test('shift-buffer', () => {
@@ -322,7 +325,13 @@ test('fill', () => {
   buf.fill('xy', 4, 9);
   expect(buf.toString()).toBe('ab12xyxyx34512');
   buf.fill('xy', 11, 14);
-  expect(buf.toString()).toBe('ab12xyxyx34xyx');  
+  expect(buf.toString()).toBe('ab12xyxyx34xyx');
+  expect(() => buf.fill('a', -1)).toThrowError();
+  buf.fill('')
+  expect(buf.length).toBe(14);
+  expect(buf.count).toBe(4);
+  expect(() => buf.fill('a', 0, -1)).toThrowError();
+  expect(() => buf.fill('a', 0, 15)).toThrowError();
 });
 
 test('get', () => {
@@ -562,4 +571,54 @@ test('to-json', () => {
     type: 'Buffer',
     data: [1, 2, 3, 4, 5, 6, 7]
   });
+});
+
+
+test('swap16', () => {
+  const buf = new BufferCollection();
+  buf.push(Buffer.from([1, 2, 3]));
+  buf.push(Buffer.from([4]));
+  buf.push(Buffer.from([5]));
+  buf.push(Buffer.from([6]));
+  buf.push(Buffer.from([7, 8, 9, 10]));
+  buf.push(Buffer.from([11, 12, 13, 14, 15, 16]));
+
+  const btest = buf.toBuffer().swap16();
+  expect(btest.equals(buf.swap16().toBuffer())).toBe(true);
+
+  buf.push(Buffer.from([255]));
+  expect(() => buf.swap16()).toThrowError();
+});
+
+
+test('swap32', () => {
+  const buf = new BufferCollection();
+  buf.push(Buffer.from([1, 2, 3]));
+  buf.push(Buffer.from([4]));
+  buf.push(Buffer.from([5]));
+  buf.push(Buffer.from([6]));
+  buf.push(Buffer.from([7, 8, 9, 10]));
+  buf.push(Buffer.from([11, 12, 13, 14, 15, 16]));
+
+  const btest = buf.toBuffer().swap32();
+  expect(btest.equals(buf.swap32().toBuffer())).toBe(true);
+  
+  buf.push(Buffer.from([255]));
+  expect(() => buf.swap32()).toThrowError();
+});
+
+test('swap64', () => {
+  const buf = new BufferCollection();
+  buf.push(Buffer.from([1, 2, 3]));
+  buf.push(Buffer.from([4]));
+  buf.push(Buffer.from([5]));
+  buf.push(Buffer.from([6]));
+  buf.push(Buffer.from([7, 8, 9, 10]));
+  buf.push(Buffer.from([11, 12, 13, 14, 15, 16]));
+
+  const btest = buf.toBuffer().swap64();
+  expect(btest.equals(buf.swap64().toBuffer())).toBe(true);
+
+  buf.push(Buffer.from([255]));
+  expect(() => buf.swap64()).toThrowError();
 });
