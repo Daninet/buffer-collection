@@ -7,12 +7,42 @@ buffer-collection
 
 Treat multiple Buffers as a single contiguous Buffer.
 
-BETA VERSION! Development in progress.
-
 Install
 =======
     npm i buffer-collection
 
+
+Example
+=======
+    const BufferCollection = require('buffer-collection');
+    const buf = new BufferCollection();
+    buf.push(Buffer.from([1, 2, 3]));
+    buf.push([4]); // automatic conversion to Buffer
+    buf.push([5, 6, 7]);
+
+    const needle = Buffer.from([2, 3]);
+    // 1
+    console.log(buf.indexOf(needle));
+
+    // <BufferCollection 02 03 04 05>
+    console.log(buf.slice(1, 5));
+
+    // <BufferCollection 01 02 03 01 02 03 01>
+    console.log(buf.fill(Buffer.from([1, 2, 3])));
+
+    // 4
+    console.log(buf.lastIndexOf(needle));
+
+    buf.writeInt32BE(0xdeadbeef, 1)
+    // <BufferCollection 01 de ad be ef 03 01>
+    console.log(buf);
+
+    const bytes = [];
+    for (const b of buf) {
+    bytes.push(b.toString(16));
+    }
+    // [ '1', 'de', 'ad', 'be', 'ef', '3', '1' ]
+    console.log(bytes);
 
 Methods
 =======
@@ -20,6 +50,10 @@ Methods
 buf.push(element)
 -------
 Adds a new Buffer to the end of the current collection.
+
+buf.compact()
+-------
+Merges internal array of buffers to a single buffer. It is called when data becomes very fragmented and the performance should be improved.
 
 buf.count
 -------
@@ -250,6 +284,27 @@ Returns a new BufferCollection that references the same memory as the original, 
 See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_slice_start_end) regarding the usage.
 
 
+buf.swap16()
+-------
+Interprets buf as an array of unsigned 16-bit integers and swaps the byte-order in-place.
+
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_swap16) regarding the usage.
+
+
+buf.swap32()
+-------
+Interprets buf as an array of unsigned 32-bit integers and swaps the byte-order in-place.
+
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_swap32) regarding the usage.
+
+
+buf.swap64()
+-------
+Interprets buf as an array of unsigned 64-bit integers and swaps the byte-order in-place.
+
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_swap64) regarding the usage.
+
+
 buf.toJSON()
 -------
 Returns a JSON representation of buf. JSON.stringify() implicitly calls this function when stringifying a BufferCollection instance.
@@ -341,20 +396,6 @@ Writes value to buf at the specified offset with little endian format. value sho
 See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeint32le_value_offset_noassert) regarding the usage.
 
 
-buf.writeIntBE(value, offset, byteLength[, noAssert])
--------
-Writes byteLength bytes of value to buf at the specified offset.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeintbe_value_offset_bytelength_noassert) regarding the usage.
-
-
-buf.writeIntLE(value, offset, byteLength[, noAssert])
--------
-Writes byteLength bytes of value to buf at the specified offset.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeintle_value_offset_bytelength_noassert) regarding the usage.
-
-
 buf.writeUInt8(value, offset[, noAssert])
 -------
 Writes value to buf at the specified offset. value should be a valid unsigned 8-bit integer.
@@ -390,20 +431,6 @@ Writes value to buf at the specified offset with little endian format. value sho
 See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeuint32le_value_offset_noassert) regarding the usage.
 
 
-buf.writeUIntBE(value, offset, byteLength[, noAssert])
--------
-Writes byteLength bytes of value to buf at the specified offset.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeuintbe_value_offset_bytelength_noassert) regarding the usage.
-
-
-buf.writeUIntLE(value, offset, byteLength[, noAssert])
--------
-Writes byteLength bytes of value to buf at the specified offset.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeuintle_value_offset_bytelength_noassert) regarding the usage.
-
-
 Unsupported Buffer methods
 =======
 
@@ -418,12 +445,6 @@ Unsupported Buffer methods
 :x: buf.readUIntBE(offset, byteLength[, noAssert])
 
 :x: buf.readUIntLE(offset, byteLength[, noAssert])
-
-:x: buf.swap16()
-
-:x: buf.swap32()
-
-:x: buf.swap64()
 
 :x: buf.writeIntBE(value, offset, byteLength[, noAssert])
 
