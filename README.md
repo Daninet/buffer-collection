@@ -11,7 +11,7 @@ This library can be used to manipulate data from multiple buffers without mergin
 
 The standard Buffer functions like indexOf, slice, etc. are rewritten to work with chunked data (in this case with the array of Buffers) .
 
-The API is compatible with the Node.js Buffer API, so it integrates nicely with your existing codebase (there are some unsupported functions, listed at the end of this readme)
+The API is compatible with the Node.js Buffer API, so it seamlessly integrates with your existing codebase (there are some unsupported functions, listed at the end of this readme)
 
 Install
 =======
