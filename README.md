@@ -9,41 +9,43 @@ Treat multiple Buffers as a single contiguous Buffer.
 
 Install
 =======
-    npm i buffer-collection
-
+```
+npm i buffer-collection
+```
 
 Example
 =======
-    const BufferCollection = require('buffer-collection');
-    const buf = new BufferCollection();
-    buf.push(Buffer.from([1, 2, 3]));
-    buf.push([4]); // automatic conversion to Buffer
-    buf.push([5, 6, 7]);
+```javascript
+const BufferCollection = require('buffer-collection');
+const buf = new BufferCollection();
+buf.push(Buffer.from([1, 2, 3]));
+buf.push([4]); // automatic conversion to Buffer
+buf.push([5, 6, 7]);
 
-    const needle = Buffer.from([2, 3]);
-    // 1
-    console.log(buf.indexOf(needle));
+// <BufferCollection 02 03 04 05>
+console.log(buf.slice(1, 5));
 
-    // <BufferCollection 02 03 04 05>
-    console.log(buf.slice(1, 5));
+const needle = Buffer.from([2, 3]);
+// 1
+console.log(buf.indexOf(needle));
 
-    // <BufferCollection 01 02 03 01 02 03 01>
-    console.log(buf.fill(Buffer.from([1, 2, 3])));
+// <BufferCollection 01 02 03 01 02 03 01>
+console.log(buf.fill(Buffer.from([1, 2, 3])));
 
-    // 4
-    console.log(buf.lastIndexOf(needle));
+// 4
+console.log(buf.lastIndexOf(needle));
 
-    buf.writeInt32BE(0xdeadbeef, 1)
-    // <BufferCollection 01 de ad be ef 03 01>
-    console.log(buf);
+buf.writeInt32BE(0xdeadbeef, 1)
+// <BufferCollection 01 de ad be ef 03 01>
+console.log(buf);
 
-    const bytes = [];
-    for (const b of buf) {
+const bytes = [];
+for (const b of buf) {
     bytes.push(b.toString(16));
-    }
-    // [ '1', 'de', 'ad', 'be', 'ef', '3', '1' ]
-    console.log(bytes);
-
+}
+// [ '1', 'de', 'ad', 'be', 'ef', '3', '1' ]
+console.log(bytes);
+```
 Methods
 =======
 
