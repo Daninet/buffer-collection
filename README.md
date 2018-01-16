@@ -6,6 +6,9 @@ buffer-collection
 [![license](https://img.shields.io/github/license/Daninet/buffer-collection.svg)](https://github.com/Daninet/buffer-collection/blob/master/LICENSE)
 
 Treat multiple Buffers as a single contiguous Buffer.
+This library can be used to manipulate data from multiple buffers without merging the buffers. In this way, the expensive concat operation could be avoided. Internally it has an array of Buffer objects. 
+The standard Buffer functions like indexOf, slice, etc. are rewritten to work with chunked data (in this case with the array of Buffers) .
+The API is compatible with the Node.js Buffer API, so it integrates nicely with the existing codebase (there are some unsupported functions, listed at the end of this readme)
 
 Install
 =======
