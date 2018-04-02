@@ -31,6 +31,6 @@
   "homepage": "https://github.com/Daninet/buffer-collection#readme",
   "devDependencies": {
     "coveralls": "^3.0.0",
-    "jest": "^22.0.4"
+    "jest": "^22.4.3"
   }
 }
