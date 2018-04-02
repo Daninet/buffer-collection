@@ -131,6 +131,13 @@ Copies data from a region of buf to a region in target even if the target memory
 See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_copy_target_targetstart_sourcestart_sourceend) regarding the usage.
 
 
+Buffer.concat(list[, totalLength])
+-------
+Returns a new `BufferCollection`, which contains all the `Buffer` and `BufferCollection` instances from the `list`. If the combined length of the `Buffers` in list exceeds `totalLength`, the result is truncated to `totalLength`.
+
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_class_method_buffer_concat_list_totallength) regarding the usage.
+
+
 buf.entries()
 -------
 Creates and returns an iterator of [index, byte] pairs from the contents of buf.
@@ -441,8 +448,6 @@ See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeu
 
 Unsupported Buffer methods
 =======
-
-:x: Buffer.concat(list[, totalLength])
 
 :x: buf[index] - please use buf.get(index)
 
