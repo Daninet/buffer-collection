@@ -72,3 +72,50 @@ test('write-bytes', () => {
   expect(buf.writeUInt32LE(1, 1)).toBe(5);
   expect(buf.toBuffer().equals(Buffer.from([0, 1, 0, 0, 0, 0, 0, 0, 0]))).toBe(true);
 });
+
+test('write-bytes-dynamic', () => {
+  function makeBuf() {
+    const buf = new BufferCollection();
+    buf.push(Buffer.alloc(1));
+    buf.push(Buffer.alloc(1));
+    buf.push(Buffer.alloc(2));
+    buf.push(Buffer.alloc(3));
+    buf.push(Buffer.alloc(2));
+    return buf;
+  }
+
+  let buf = makeBuf();
+  let buf2 = Buffer.alloc(9);
+  for (let i = 1; i <= 6; i++) {
+    expect(buf.writeIntLE(1, 1, i)).toBe(buf2.writeIntLE(1, 1, i));
+    expect(buf.toBuffer().equals(buf2)).toBe(true);
+    expect(buf.writeIntBE(1, 1, i)).toBe(buf2.writeIntBE(1, 1, i));
+    expect(buf.toBuffer().equals(buf2)).toBe(true);
+    expect(buf.writeIntLE(-1, 1, i)).toBe(buf2.writeIntLE(-1, 1, i));
+    expect(buf.toBuffer().equals(buf2)).toBe(true);
+    expect(buf.writeIntBE(-1, 1, i)).toBe(buf2.writeIntBE(-1, 1, i));
+    expect(buf.toBuffer().equals(buf2)).toBe(true);
+    expect(buf.writeUIntLE(1, 1, i)).toBe(buf2.writeUIntLE(1, 1, i));
+    expect(buf.toBuffer().equals(buf2)).toBe(true);
+    expect(buf.writeUIntBE(1, 1, i)).toBe(buf2.writeUIntBE(1, 1, i));
+    expect(buf.toBuffer().equals(buf2)).toBe(true);
+  }
+
+  let val = 0x12;
+  for (let i = 1; i <= 6; i++) {
+    expect(buf.writeIntLE(val, 1, i)).toBe(buf2.writeIntLE(val, 1, i));
+    expect(buf.toBuffer().equals(buf2)).toBe(true);
+    expect(buf.writeIntBE(val, 1, i)).toBe(buf2.writeIntBE(val, 1, i));
+    expect(buf.toBuffer().equals(buf2)).toBe(true);
+    expect(buf.writeIntLE(-val, 1, i)).toBe(buf2.writeIntLE(-val, 1, i));
+    expect(buf.toBuffer().equals(buf2)).toBe(true);
+    expect(buf.writeIntBE(-val, 1, i)).toBe(buf2.writeIntBE(-val, 1, i));
+    expect(buf.toBuffer().equals(buf2)).toBe(true);
+    expect(buf.writeUIntLE(val, 1, i)).toBe(buf2.writeUIntLE(val, 1, i));
+    expect(buf.toBuffer().equals(buf2)).toBe(true);
+    expect(buf.writeUIntBE(val, 1, i)).toBe(buf2.writeUIntBE(val, 1, i));
+    expect(buf.toBuffer().equals(buf2)).toBe(true);
+    val = val * 256 + 0x56;
+  }
+});
+
