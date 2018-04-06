@@ -35,3 +35,27 @@ test('read-basic', () => {
   expect(buf.readUInt32BE(1)).toBe(0xfd48eacf);
   expect(buf.readUInt32LE(1)).toBe(0xcfea48fd);
 });
+
+test('read-bytes-dynamic', () => {
+  function randInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  function makeBuf() {
+    const buf = new BufferCollection();
+    buf.push(Buffer.from([randInt(0, 255)]));
+    buf.push(Buffer.from([randInt(0, 255)]));
+    buf.push(Buffer.from([randInt(0, 255), randInt(0, 255)]));
+    buf.push(Buffer.from([randInt(0, 255), randInt(0, 255), randInt(0, 255)]));
+    buf.push(Buffer.from([randInt(0, 255), randInt(0, 255)]));
+    return buf;
+  }
+
+  const buf = makeBuf();
+  const buf2 = buf.toBuffer();
+  for (let i = 1; i <= 6; i++) {
+    expect(buf.readIntLE(1, i)).toBe(buf2.readIntLE(1, i));
+    expect(buf.readIntBE(1, i)).toBe(buf2.readIntBE(1, i));
+    expect(buf.readUIntLE(1, i)).toBe(buf2.readUIntLE(1, i));
+    expect(buf.readUIntBE(1, i)).toBe(buf2.readUIntBE(1, i));
+  }
+});
