@@ -257,6 +257,20 @@ Reads a signed 32-bit integer from buf at the specified offset with the little e
 See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readint32le_offset_noassert) regarding the usage.
 
 
+buf.readIntBE(offset, byteLength[, noAssert])
+-------
+Reads byteLength number of bytes from buf at the specified offset and interprets the result as a two's complement signed value with the big endian format. Supports up to 48 bits of accuracy.
+
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readintbe_offset_bytelength_noassert) regarding the usage.
+
+
+buf.readIntLE(offset, byteLength[, noAssert])
+-------
+Reads byteLength number of bytes from buf at the specified offset and interprets the result as a two's complement signed value with the little endian format. Supports up to 48 bits of accuracy.
+
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readintle_offset_bytelength_noassert) regarding the usage.
+
+
 buf.readUInt8(offset[, noAssert])
 -------
 Reads an unsigned 8-bit integer from buf at the specified offset.
@@ -290,6 +304,20 @@ buf.readUInt32LE(offset[, noAssert])
 Reads a unsigned 32-bit integer from buf at the specified offset with the little endian format.
 
 See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readuint32le_offset_noassert) regarding the usage.
+
+
+buf.readUIntBE(offset, byteLength[, noAssert])
+-------
+Reads byteLength number of bytes from buf at the specified offset and interprets the result as an unsigned integer with the big endian format. Supports up to 48 bits of accuracy.
+
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readuintbe_offset_bytelength_noassert) regarding the usage.
+
+
+buf.readUIntLE(offset, byteLength[, noAssert])
+-------
+Reads byteLength number of bytes from buf at the specified offset and interprets the result as an unsigned integer with the little endian format. Supports up to 48 bits of accuracy.
+
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readuintle_offset_bytelength_noassert) regarding the usage.
 
 
 buf.slice([start[, end]])
@@ -478,14 +506,6 @@ Unsupported Buffer methods
 =======
 
 :x: buf[index] - please use buf.get(index)
-
-:x: buf.readIntBE(offset, byteLength[, noAssert])
-
-:x: buf.readIntLE(offset, byteLength[, noAssert])
-
-:x: buf.readUIntBE(offset, byteLength[, noAssert])
-
-:x: buf.readUIntLE(offset, byteLength[, noAssert])
 
 License
 =======
