@@ -1,6 +1,6 @@
 {
   "name": "buffer-collection",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Treat multiple Buffers as a single contiguous Buffer.",
   "main": "index.js",
   "scripts": {
