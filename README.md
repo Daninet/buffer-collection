@@ -411,6 +411,20 @@ Writes value to buf at the specified offset with little endian format. value sho
 See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeint32le_value_offset_noassert) regarding the usage.
 
 
+buf.writeIntBE(value, offset, byteLength[, noAssert])
+-------
+Writes byteLength bytes of value to buf at the specified offset with big endian format. Supports up to 48 bits of accuracy. Behavior is undefined when value is anything other than a signed integer.
+
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeintbe_value_offset_bytelength_noassert) regarding the usage.
+
+
+buf.writeIntLE(value, offset, byteLength[, noAssert])
+-------
+Writes byteLength bytes of value to buf at the specified offset with little endian format. Supports up to 48 bits of accuracy. Behavior is undefined when value is anything other than a signed integer.
+
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeintle_value_offset_bytelength_noassert) regarding the usage.
+
+
 buf.writeUInt8(value, offset[, noAssert])
 -------
 Writes value to buf at the specified offset. value should be a valid unsigned 8-bit integer.
@@ -446,6 +460,20 @@ Writes value to buf at the specified offset with little endian format. value sho
 See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeuint32le_value_offset_noassert) regarding the usage.
 
 
+buf.writeUIntBE(value, offset, byteLength[, noAssert])
+-------
+Writes byteLength bytes of value to buf at the specified offset with big endian format. Supports up to 48 bits of accuracy. Behavior is undefined when value is anything other than an unsigned integer.
+
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeuintbe_value_offset_bytelength_noassert) regarding the usage.
+
+
+buf.writeUIntLE(value, offset, byteLength[, noAssert])
+-------
+Writes byteLength bytes of value to buf at the specified offset with little endian format. Supports up to 48 bits of accuracy. Behavior is undefined when value is anything other than an unsigned integer.
+
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeuintle_value_offset_bytelength_noassert) regarding the usage.
+
+
 Unsupported Buffer methods
 =======
 
@@ -458,14 +486,6 @@ Unsupported Buffer methods
 :x: buf.readUIntBE(offset, byteLength[, noAssert])
 
 :x: buf.readUIntLE(offset, byteLength[, noAssert])
-
-:x: buf.writeIntBE(value, offset, byteLength[, noAssert])
-
-:x: buf.writeIntLE(value, offset, byteLength[, noAssert])
-
-:x: buf.writeUIntBE(value, offset, byteLength[, noAssert])
-
-:x: buf.writeUIntLE(value, offset, byteLength[, noAssert])
 
 License
 =======
