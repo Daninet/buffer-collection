@@ -118,4 +118,19 @@ test('write-bytes-dynamic', () => {
     expect(buf.toBuffer().equals(buf2)).toBe(true);
     val = val * 256 + 0x56;
   }
+
+  expect(() => buf.writeUIntBE(256, 1, 1)).toThrowError();
+  expect(() => buf.writeUIntLE(256, 1, 1)).toThrowError();
+
+  expect(() => buf.writeUIntBE(1, 1, 0)).toThrowError();
+  expect(() => buf.writeUIntBE(1, 1, 7)).toThrowError();
+
+  expect(() => buf.writeUIntLE(1, 1, 0)).toThrowError();
+  expect(() => buf.writeUIntLE(1, 1, 7)).toThrowError();
+
+  expect(() => buf.writeIntBE(1, 1, 0)).toThrowError();
+  expect(() => buf.writeIntBE(1, 1, 7)).toThrowError();
+
+  expect(() => buf.writeIntLE(1, 1, 0)).toThrowError();
+  expect(() => buf.writeIntLE(1, 1, 7)).toThrowError();
 });

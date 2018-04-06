@@ -59,4 +59,16 @@ test('read-bytes-dynamic', () => {
     expect(buf.readUIntLE(1, i)).toBe(buf2.readUIntLE(1, i));
     expect(buf.readUIntBE(1, i)).toBe(buf2.readUIntBE(1, i));
   }
+
+  expect(() => buf.readUIntBE(1, 0)).toThrowError();
+  expect(() => buf.readUIntBE(1, 7)).toThrowError();
+
+  expect(() => buf.readUIntLE(1, 0)).toThrowError();
+  expect(() => buf.readUIntLE(1, 7)).toThrowError();
+
+  expect(() => buf.readIntBE(1, 0)).toThrowError();
+  expect(() => buf.readIntBE(1, 7)).toThrowError();
+
+  expect(() => buf.readIntLE(1, 0)).toThrowError();
+  expect(() => buf.readIntLE(1, 7)).toThrowError();
 });
