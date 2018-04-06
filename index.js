@@ -1,5 +1,5 @@
 'use strict';
 
-const BufferCollection = require('./lib/BufferCollection')
+const BufferCollection = require('./lib/BufferCollection');
 
 module.exports = BufferCollection;
