@@ -1,12 +1,13 @@
 'use strict';
+/* global test, expect */
 const N = 1000;
 const BufferCollection = require('../');
 
-function randInt(min, max) {
+function randInt (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function randomBuffer(length) {
+function randomBuffer (length) {
   const buf = Buffer.alloc(length);
   for (let i = 0; i < length; i++) {
     buf[i] = randInt(0, 255);
@@ -14,7 +15,7 @@ function randomBuffer(length) {
   return buf;
 }
 
-function makeBuf() {
+function makeBuf () {
   const buf = new BufferCollection();
   const numChunks = randInt(0, 15);
   for (let i = 0; i < numChunks; i++) {

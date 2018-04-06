@@ -1,4 +1,5 @@
 'use strict';
+/* global test, expect */
 
 const BufferCollection = require('../');
 
@@ -9,20 +10,20 @@ test('write-simple', () => {
   buf.push('y');
   buf.push('12345');
 
-  buf.write('po')
+  buf.write('po');
   expect(buf.toString()).toBe('pocdxy12345');
-  buf.write('AB', 3)
+  buf.write('AB', 3);
   expect(buf.toString()).toBe('pocABy12345');
-  buf.write('XZ', 4, 1)
+  buf.write('XZ', 4, 1);
   expect(buf.toString()).toBe('pocAXy12345');
-  buf.write('II', 6, 0)
+  buf.write('II', 6, 0);
   expect(buf.toString()).toBe('pocAXy12345');
-  buf.write('TR0', 9)
+  buf.write('TR0', 9);
   expect(buf.toString()).toBe('pocAXy123TR');
 });
 
 test('write-bytes', () => {
-  function makeBuf() {
+  function makeBuf () {
     const buf = new BufferCollection();
     buf.push(Buffer.alloc(1));
     buf.push(Buffer.alloc(1));
@@ -41,7 +42,7 @@ test('write-bytes', () => {
   expect(buf.toBuffer().equals(Buffer.from([0, 63, 240, 0, 0, 0, 0, 0, 0]))).toBe(true);
   expect(buf.writeDoubleLE(1, 1)).toBe(9);
   expect(buf.toBuffer().equals(Buffer.from([0, 0, 0, 0, 0, 0, 0, 240, 63]))).toBe(true);
-  
+
   buf = makeBuf();
   expect(buf.writeInt8(1, 0)).toBe(1);
   expect(buf.toBuffer().equals(Buffer.from([1, 0, 0, 0, 0, 0, 0, 0, 0]))).toBe(true);
@@ -74,7 +75,7 @@ test('write-bytes', () => {
 });
 
 test('write-bytes-dynamic', () => {
-  function makeBuf() {
+  function makeBuf () {
     const buf = new BufferCollection();
     buf.push(Buffer.alloc(1));
     buf.push(Buffer.alloc(1));
@@ -118,4 +119,3 @@ test('write-bytes-dynamic', () => {
     val = val * 256 + 0x56;
   }
 });
-

@@ -1,4 +1,5 @@
 'use strict';
+/* global test, expect */
 
 const BufferCollection = require('../');
 
@@ -80,7 +81,6 @@ test('concat-total-length', () => {
   expect(buf.length).toBe(2);
   expect(buf.count).toBe(1);
 });
-
 
 test('is-encoding', () => {
   expect(BufferCollection.isEncoding('utf8')).toBe(true);

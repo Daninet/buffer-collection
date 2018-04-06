@@ -1,4 +1,5 @@
 'use strict';
+/* global test, expect */
 
 const BufferCollection = require('../');
 
@@ -48,7 +49,6 @@ test('increment-position', () => {
   position = buf._incrementPosition(position);
   expect(position).toBe(null);
 });
-
 
 test('simple-read', () => {
   const buf = new BufferCollection();
@@ -163,7 +163,6 @@ test('verify-match', () => {
   expect(buf2._verifyMatch(BufferCollection.from('dx'), 0, 4, 4)).toBe(true);
   expect(buf2._verifyMatch(BufferCollection.from('dx'), 0, 3, 3)).toBe(false);
 });
-
 
 test('index-of-simple', () => {
   const buf = new BufferCollection();
@@ -327,7 +326,7 @@ test('fill', () => {
   buf.fill('xy', 11, 14);
   expect(buf.toString()).toBe('ab12xyxyx34xyx');
   expect(() => buf.fill('a', -1)).toThrowError();
-  buf.fill('')
+  buf.fill('');
   expect(buf.length).toBe(14);
   expect(buf.count).toBe(4);
   expect(() => buf.fill('a', 0, -1)).toThrowError();
@@ -573,7 +572,6 @@ test('to-json', () => {
   });
 });
 
-
 test('swap16', () => {
   const buf = new BufferCollection();
   buf.push(Buffer.from([1, 2, 3]));
@@ -590,7 +588,6 @@ test('swap16', () => {
   expect(() => buf.swap16()).toThrowError();
 });
 
-
 test('swap32', () => {
   const buf = new BufferCollection();
   buf.push(Buffer.from([1, 2, 3]));
@@ -602,7 +599,7 @@ test('swap32', () => {
 
   const btest = buf.toBuffer().swap32();
   expect(btest.equals(buf.swap32().toBuffer())).toBe(true);
-  
+
   buf.push(Buffer.from([255]));
   expect(() => buf.swap32()).toThrowError();
 });

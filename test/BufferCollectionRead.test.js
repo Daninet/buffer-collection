@@ -1,4 +1,5 @@
 'use strict';
+/* global test, expect */
 
 const BufferCollection = require('../');
 
@@ -37,10 +38,10 @@ test('read-basic', () => {
 });
 
 test('read-bytes-dynamic', () => {
-  function randInt(min, max) {
+  function randInt (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
-  function makeBuf() {
+  function makeBuf () {
     const buf = new BufferCollection();
     buf.push(Buffer.from([randInt(0, 255)]));
     buf.push(Buffer.from([randInt(0, 255)]));
