@@ -1,7 +1,5 @@
-'use strict';
+import BufferCollection from '../lib/BufferCollection';
 /* global test, expect */
-
-const BufferCollection = require('../');
 
 test('read-basic', () => {
   const buf = new BufferCollection();

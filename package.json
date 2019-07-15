@@ -1,9 +1,11 @@
 {
   "name": "buffer-collection",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "Treat multiple Buffers as a single contiguous Buffer.",
-  "main": "index.js",
+  "main": "dist/index.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "build": "tsc",
     "test": "jest --coverage",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
@@ -30,6 +32,7 @@
   },
   "homepage": "https://github.com/Daninet/buffer-collection#readme",
   "devDependencies": {
+    "@types/jest": "^24.0.15",
     "coveralls": "^3.0.5",
     "eslint": "^6.0.1",
     "eslint-config-standard": "^13.0.1",
@@ -37,6 +40,11 @@
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
-    "jest": "^24.8.0"
+    "jest": "^24.8.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {
+    "@types/node": "^12.6.2"
   }
 }
