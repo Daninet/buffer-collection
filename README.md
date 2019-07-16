@@ -9,9 +9,11 @@ Treat multiple Buffers as a single contiguous Buffer.
 
 This library can be used to manipulate data from multiple buffers without merging the buffers. In this way, the expensive concat operation could be avoided. Internally it interates over the items from the array of Buffer objects.
 
-The standard Buffer functions like indexOf, slice, etc. are rewritten to work with chunked data (in this case with the array of Buffers) .
+The standard Buffer functions like indexOf, slice, etc. are rewritten to work with chunked data.
 
-The API is compatible with the Node.js Buffer API, so it seamlessly integrates with your existing codebase (there are some unsupported functions, listed at the end of this readme)
+The API is compatible with the Node.js Buffer API, so it seamlessly integrates with your existing codebase.
+
+Contains type definitions for TypeScript.
 
 Install
 =======
@@ -54,6 +56,8 @@ console.log(bytes);
 ```
 Methods
 =======
+The API is a superset of the Node.js Buffer API, so it seamlessly integrates with your existing codebase.
+The only Buffer feature what is missing from BufferCollection is the [] operator. But you can use .get() in place of that.
 
 buf.push(element)
 -------
@@ -61,7 +65,7 @@ Adds a new Buffer to the end of the current collection.
 
 buf.compact()
 -------
-Merges internal array of buffers to a single buffer. It is called when data becomes very fragmented and the performance should be improved.
+Merges internal array of buffers to a single buffer. It should be called when data becomes very fragmented.
 
 buf.count
 -------
@@ -81,7 +85,7 @@ Removes the first Buffer from collection and returns it. This method changes the
 
 buf.slice([start[, end]])
 -------
-Returns a new BufferCollection that references the same memory as the original, but offset and cropped by the start and end indices. Works similarly as slice method of Buffers.
+Returns a new BufferCollection that references the same memory as the original, but offset and cropped by the start and end indices. Works similarly as the slice method of Buffers.
 
 
 \+ Methods from Node.js Buffer API
@@ -196,65 +200,47 @@ See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_length
 
 buf.readDoubleBE(offset[, noAssert])
 -------
-Reads a 64-bit double from buf at the specified offset with big endian format.
+buf.readDoubleLE(offset[, noAssert]
+-------
+Reads a 64-bit double from buf at the specified offset with the corresponding endianness.
 
 See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readdoublebe_offset_noassert) regarding the usage.
 
 
-buf.readDoubleLE(offset[, noAssert])
--------
-Reads a 64-bit double from buf at the specified offset with little endian format.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readdoublele_offset_noassert) regarding the usage.
-
-
 buf.readFloatBE(offset[, noAssert])
 -------
-Reads a 32-bit float from buf at the specified offset with big endian format.
+buf.readFloatLE(offset[, noAssert])
+-------
+Reads a 32-bit float from buf at the specified offset with the corresponding endianness.
 
 See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readfloatbe_offset_noassert) regarding the usage.
 
 
-buf.readFloatLE(offset[, noAssert])
--------
-Reads a 32-bit float from buf at the specified offset with little endian format.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readfloatle_offset_noassert) regarding the usage.
-
-
 buf.readInt8(offset[, noAssert])
 -------
-Reads a signed 8-bit integer from buf at the specified offset.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readint8_offset_noassert) regarding the usage.
-
-
 buf.readInt16BE(offset[, noAssert])
 -------
-Reads a signed 16-bit integer from buf at the specified offset with the big endian format.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readint16be_offset_noassert) regarding the usage.
-
-
 buf.readInt16LE(offset[, noAssert])
 -------
-Reads a signed 16-bit integer from buf at the specified offset with the little endian format.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readint16le_offset_noassert) regarding the usage.
-
-
+buf.readInt24BE(offset[, noAssert])
+-------
+buf.readInt24LE(offset[, noAssert])
+-------
 buf.readInt32BE(offset[, noAssert])
 -------
-Reads a signed 32-bit integer from buf at the specified offset with the big endian format.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readint32be_offset_noassert) regarding the usage.
-
-
 buf.readInt32LE(offset[, noAssert])
 -------
-Reads a signed 32-bit integer from buf at the specified offset with the little endian format.
+buf.readInt40BE(offset[, noAssert])
+-------
+buf.readInt40LE(offset[, noAssert])
+-------
+buf.readInt48BE(offset[, noAssert])
+-------
+buf.readInt48LE(offset[, noAssert])
+-------
+Reads a signed integer from buf at the specified offset.
 
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readint32le_offset_noassert) regarding the usage.
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readint8_offset_noassert) regarding the usage.
 
 
 buf.readIntBE(offset, byteLength[, noAssert])
@@ -273,37 +259,29 @@ See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readin
 
 buf.readUInt8(offset[, noAssert])
 -------
-Reads an unsigned 8-bit integer from buf at the specified offset.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readuint8_offset_noassert) regarding the usage.
-
-
 buf.readUInt16BE(offset[, noAssert])
 -------
-Reads a unsigned 16-bit integer from buf at the specified offset with the big endian format.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readuint16be_offset_noassert) regarding the usage.
-
-
 buf.readUInt16LE(offset[, noAssert])
 -------
-Reads a unsigned 16-bit integer from buf at the specified offset with the little endian format.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readuint16le_offset_noassert) regarding the usage.
-
-
+buf.readUInt24BE(offset[, noAssert])
+-------
+buf.readUInt24LE(offset[, noAssert])
+-------
 buf.readUInt32BE(offset[, noAssert])
 -------
-Reads a unsigned 32-bit integer from buf at the specified offset with the big endian format.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readuint32be_offset_noassert) regarding the usage.
-
-
 buf.readUInt32LE(offset[, noAssert])
 -------
-Reads a unsigned 32-bit integer from buf at the specified offset with the little endian format.
+buf.readUInt40BE(offset[, noAssert])
+-------
+buf.readUInt40LE(offset[, noAssert])
+-------
+buf.readUInt48BE(offset[, noAssert])
+-------
+buf.readUInt48LE(offset[, noAssert])
+-------
+Reads an unsigned integer from buf at the specified offset.
 
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readuint32le_offset_noassert) regarding the usage.
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_readuint8_offset_noassert) regarding the usage.
 
 
 buf.readUIntBE(offset, byteLength[, noAssert])
@@ -378,65 +356,35 @@ See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_write_
 
 buf.writeDoubleBE(value, offset[, noAssert])
 -------
-Writes value to buf at the specified offset with big endian format. value should be a valid 64-bit double. 
+buf.writeDoubleLE(value, offset[, noAssert])
+-------
+Writes value to buf at the specified offset with the corresponding endianness. value should be a valid 64-bit double. 
 
 See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writedoublebe_value_offset_noassert) regarding the usage.
 
 
-buf.writeDoubleLE(value, offset[, noAssert])
--------
-Writes value to buf at the specified offset with little endian format. value should be a valid 64-bit double. 
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writedoublele_value_offset_noassert) regarding the usage.
-
-
 buf.writeFloatBE(value, offset[, noAssert])
 -------
-Writes value to buf at the specified offset with big endian format. value should be a valid 32-bit float. 
+buf.writeFloatLE(value, offset[, noAssert])
+-------
+Writes value to buf at the specified offset with the corresponding endianness. value should be a valid 32-bit float. 
 
 See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writefloatbe_value_offset_noassert) regarding the usage.
 
 
-buf.writeFloatLE(value, offset[, noAssert])
--------
-Writes value to buf at the specified offset with little endian format. value should be a valid 32-bit float. 
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writefloatle_value_offset_noassert) regarding the usage.
-
-
 buf.writeInt8(value, offset[, noAssert])
 -------
-Writes value to buf at the specified offset. value should be a valid signed 8-bit integer.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeint8_value_offset_noassert) regarding the usage.
-
-
 buf.writeInt16BE(value, offset[, noAssert])
 -------
-Writes value to buf at the specified offset with big endian format. value should be a valid signed 16-bit integer.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeint16be_value_offset_noassert) regarding the usage.
-
-
 buf.writeInt16LE(value, offset[, noAssert])
 -------
-Writes value to buf at the specified offset with little endian format. value should be a valid signed 16-bit integer.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeint16le_value_offset_noassert) regarding the usage.
-
-
 buf.writeInt32BE(value, offset[, noAssert])
 -------
-Writes value to buf at the specified offset with big endian format. value should be a valid signed 32-bit integer.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeint32be_value_offset_noassert) regarding the usage.
-
-
 buf.writeInt32LE(value, offset[, noAssert])
 -------
-Writes value to buf at the specified offset with little endian format. value should be a valid signed 32-bit integer.
+Writes value to buf at the specified offset. value should be a valid signed integer.
 
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeint32le_value_offset_noassert) regarding the usage.
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeint8_value_offset_noassert) regarding the usage.
 
 
 buf.writeIntBE(value, offset, byteLength[, noAssert])
@@ -455,37 +403,17 @@ See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writei
 
 buf.writeUInt8(value, offset[, noAssert])
 -------
-Writes value to buf at the specified offset. value should be a valid unsigned 8-bit integer.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeuint8_value_offset_noassert) regarding the usage.
-
-
 buf.writeUInt16BE(value, offset[, noAssert])
 -------
-Writes value to buf at the specified offset with big endian format. value should be a valid unsigned 16-bit integer.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeuint16be_value_offset_noassert) regarding the usage.
-
-
 buf.writeUInt16LE(value, offset[, noAssert])
 -------
-Writes value to buf at the specified offset with little endian format. value should be a valid unsigned 16-bit integer.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeuint16le_value_offset_noassert) regarding the usage.
-
-
 buf.writeUInt32BE(value, offset[, noAssert])
 -------
-Writes value to buf at the specified offset with big endian format. value should be a valid unsigned 32-bit integer.
-
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeuint32be_value_offset_noassert) regarding the usage.
-
-
 buf.writeUInt32LE(value, offset[, noAssert])
 -------
-Writes value to buf at the specified offset with little endian format. value should be a valid unsigned 32-bit integer.
+Writes value to buf at the specified offset. value should be a valid unsigned integer.
 
-See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeuint32le_value_offset_noassert) regarding the usage.
+See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeuint8_value_offset_noassert) regarding the usage.
 
 
 buf.writeUIntBE(value, offset, byteLength[, noAssert])
@@ -505,7 +433,7 @@ See [Node.js documentation](https://nodejs.org/api/buffer.html#buffer_buf_writeu
 Unsupported Buffer methods
 =======
 
-:x: buf[index] - please use buf.get(index)
+:x: buf[index] - please use buf.get(index) and buf.set(offset, value)
 
 License
 =======

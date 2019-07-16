@@ -1,7 +1,8 @@
-## 3.0.0 (July 15, 2019)
+## 3.0.0 (July 16, 2019)
 
 * Migrate to TypeScript
 * Added type definitions
+* Added more tests to handle out of offset errors
 * Updated dependencies
 
 ## 2.0.3 (Apr 28, 2019)
