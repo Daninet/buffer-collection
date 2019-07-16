@@ -57,6 +57,8 @@ test('concat', () => {
       .toBuffer()
       .equals(Buffer.from([0, 1, 2, 3])))
     .toBe(true);
+  expect(BufferCollection.concat([[0, 1], [2, 3]]).count).toBe(2);
+  expect(BufferCollection.concat([[0, 1], [2, 3]]).toBuffer().equals(Buffer.from([0, 1, 2, 3]))).toBe(true);
   expect(BufferCollection.concat([Buffer.from([0, 1])]).count).toBe(1);
   expect(BufferCollection.concat([Buffer.from([0, 1]), Buffer.from([2, 3])]).count).toBe(2);
   expect(BufferCollection.concat([Buffer.from([0, 1, 2])]).length).toBe(3);
@@ -88,4 +90,22 @@ test('is-encoding', () => {
 
 test('pool-size', () => {
   expect(BufferCollection.poolSize).toBe(Buffer.poolSize);
+});
+
+test('from', () => {
+  const bufferArr = [Buffer.from([1, 2]), Buffer.from([3, 4]), Buffer.from([5, 6, 7])];
+  let buf = BufferCollection.from(BufferCollection.concat(bufferArr, 3));
+  expect(buf.count).toBe(1);
+  expect(buf.length).toBe(3);
+  expect(buf.toBuffer().equals(Buffer.from([1, 2, 3]))).toBe(true);
+
+  buf = BufferCollection.from(Buffer.from([1, 2]));
+  expect(buf.count).toBe(1);
+  expect(buf.length).toBe(2);
+  expect(buf.toBuffer().equals(Buffer.from([1, 2]))).toBe(true);
+
+  buf = BufferCollection.from(new ArrayBuffer(5));
+  expect(buf.count).toBe(1);
+  expect(buf.length).toBe(5);
+  expect(buf.toBuffer().equals(Buffer.from([0, 0, 0, 0, 0]))).toBe(true);
 });

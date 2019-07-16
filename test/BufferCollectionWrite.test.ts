@@ -72,20 +72,62 @@ test('write-bytes', () => {
   expect(buf.toBuffer().equals(Buffer.from([0, 1, 0, 0, 0, 0, 0, 0, 0]))).toBe(true);
 });
 
+test('write out of offset', () => {
+  const buf = new BufferCollection();
+  buf.push([1, 2]).push([3, 4, 5]).push([6, 7, 8]);
+
+  expect(() => buf.writeInt8(1, -1)).toThrowError();
+  expect(() => buf.writeInt8(1, 8)).toThrowError();
+
+  expect(() => buf.writeInt16BE(1, -1)).toThrowError();
+  expect(() => buf.writeInt16BE(1, 7)).toThrowError();
+
+  expect(() => buf.writeInt16LE(1, -1)).toThrowError();
+  expect(() => buf.writeInt16LE(1, 7)).toThrowError();
+
+  expect(() => buf.writeInt32BE(1, -1)).toThrowError();
+  expect(() => buf.writeInt32BE(1, 5)).toThrowError();
+
+  expect(() => buf.writeInt32LE(1, -1)).toThrowError();
+  expect(() => buf.writeInt32LE(1, 5)).toThrowError();
+
+  expect(() => buf.writeUInt8(1, -1)).toThrowError();
+  expect(() => buf.writeUInt8(1, 8)).toThrowError();
+
+  expect(() => buf.writeUInt16BE(1, -1)).toThrowError();
+  expect(() => buf.writeUInt16BE(1, 7)).toThrowError();
+
+  expect(() => buf.writeUInt16LE(1, -1)).toThrowError();
+  expect(() => buf.writeUInt16LE(1, 7)).toThrowError();
+
+  expect(() => buf.writeUInt32BE(1, -1)).toThrowError();
+  expect(() => buf.writeUInt32BE(1, 5)).toThrowError();
+
+  expect(() => buf.writeUInt32LE(1, -1)).toThrowError();
+  expect(() => buf.writeUInt32LE(1, 5)).toThrowError();
+});
+
 test('write-bytes-dynamic', () => {
+  function randInt (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
   function makeBuf () {
     const buf = new BufferCollection();
-    buf.push(Buffer.alloc(1));
-    buf.push(Buffer.alloc(1));
-    buf.push(Buffer.alloc(2));
-    buf.push(Buffer.alloc(3));
-    buf.push(Buffer.alloc(2));
+    buf.push(Buffer.from([randInt(0, 255)]));
+    buf.push(Buffer.from([randInt(0, 255)]));
+    buf.push(Buffer.from([randInt(0, 255), randInt(0, 255)]));
+    buf.push(Buffer.from([randInt(0, 255), randInt(0, 255), randInt(0, 255)]));
+    buf.push(Buffer.from([randInt(0, 255), randInt(0, 255)]));
     return buf;
   }
 
   let buf = makeBuf();
-  let buf2 = Buffer.alloc(9);
+  let buf2 = buf.toBuffer();
   for (let i = 1; i <= 6; i++) {
+    expect(() => buf.writeIntLE(1, -1, i)).toThrowError();
+    expect(() => buf.writeIntBE(1, -1, i)).toThrowError();
+    expect(() => buf.writeUIntLE(1, -1, i)).toThrowError();
+    expect(() => buf.writeUIntBE(1, -1, i)).toThrowError();
     expect(buf.writeIntLE(1, 1, i)).toBe(buf2.writeIntLE(1, 1, i));
     expect(buf.toBuffer().equals(buf2)).toBe(true);
     expect(buf.writeIntBE(1, 1, i)).toBe(buf2.writeIntBE(1, 1, i));
@@ -98,6 +140,10 @@ test('write-bytes-dynamic', () => {
     expect(buf.toBuffer().equals(buf2)).toBe(true);
     expect(buf.writeUIntBE(1, 1, i)).toBe(buf2.writeUIntBE(1, 1, i));
     expect(buf.toBuffer().equals(buf2)).toBe(true);
+    expect(() => buf.writeIntLE(1, buf.length - i + 1, i)).toThrowError();
+    expect(() => buf.writeIntBE(1, buf.length - i + 1, i)).toThrowError();
+    expect(() => buf.writeUIntLE(1, buf.length - i + 1, i)).toThrowError();
+    expect(() => buf.writeUIntBE(1, buf.length - i + 1, i)).toThrowError();
   }
 
   let val = 0x12;
@@ -115,6 +161,13 @@ test('write-bytes-dynamic', () => {
     expect(buf.writeUIntBE(val, 1, i)).toBe(buf2.writeUIntBE(val, 1, i));
     expect(buf.toBuffer().equals(buf2)).toBe(true);
     val = val * 256 + 0x56;
+  }
+
+  for (let i = 1; i <= 6; i++) {
+    expect(() => buf.writeIntLE(0, buf.length - i, i)).not.toThrowError();
+    expect(() => buf.writeIntBE(0, buf.length - i, i)).not.toThrowError();
+    expect(() => buf.writeUIntLE(0, buf.length - i, i)).not.toThrowError();
+    expect(() => buf.writeUIntBE(0, buf.length - i, i)).not.toThrowError();
   }
 
   expect(() => buf.writeUIntBE(256, 1, 1)).toThrowError();

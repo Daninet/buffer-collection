@@ -185,6 +185,34 @@ test('index-of-simple', () => {
   expect(buf.indexOf('fuvz11')).toBe(-1);
 });
 
+test('index-of-number', () => {
+  const buf = new BufferCollection();
+  buf.push([23, 24, 25, 0, 1, 2, 2, 3]);
+  expect(buf.indexOf(0)).toBe(3);
+  expect(buf.indexOf(5)).toBe(-1);
+  expect(buf.indexOf(2)).toBe(5);
+  expect(buf.indexOf(2)).toBe(5);
+  expect(buf.indexOf(23)).toBe(0);
+  expect(buf.indexOf(3)).toBe(7);
+  buf.push([0, 5]);
+  expect(buf.indexOf(0)).toBe(3);
+  expect(buf.indexOf(5)).toBe(9);
+  expect(buf.indexOf([0, 2])).toBe(-1);
+  expect(buf.indexOf([0, 5])).toBe(8);
+  expect(buf.indexOf([0, 1])).toBe(3);
+  expect(buf.indexOf([3, 0])).toBe(7);
+  buf.push([5]);
+  buf.push([5]);
+  buf.push([6]);
+  buf.push([0]);
+  expect(buf.indexOf(6)).toBe(12);
+  expect(buf.indexOf(5)).toBe(9);
+  expect(buf.indexOf([0])).toBe(3);
+  expect(buf.indexOf([5, 5, 6])).toBe(10);
+  expect(buf.indexOf([5, 5, 6, 0])).toBe(10);
+  expect(buf.indexOf([5, 5, 5, 6, 0])).toBe(9);
+});
+
 test('index-of-bad-param', () => {
   const buf = new BufferCollection();
   buf.push('abcd');
@@ -217,6 +245,7 @@ test('index-of-position', () => {
   expect(buf.indexOf('xy', 4)).toBe(4);
   expect(buf.indexOf('xy', 5)).toBe(6);
   expect(buf.indexOf('xy', 7)).toBe(-1);
+  expect(buf.indexOf('xy', 100)).toBe(-1);
   const buf2 = BufferCollection.from('a');
   expect(buf2.indexOf('a', 1)).toBe(-1);
   expect(buf2.indexOf('a', 0)).toBe(0);
@@ -259,6 +288,35 @@ test('last-index-of', () => {
   expect(buf.lastIndexOf('abc', -170)).toBe(-1);
 });
 
+test('last-index-of-number', () => {
+  const buf = new BufferCollection();
+  buf.push([23, 24, 25, 0, 1, 2, 2, 3]);
+  expect(buf.lastIndexOf(0)).toBe(3);
+  expect(buf.lastIndexOf(5)).toBe(-1);
+  expect(buf.lastIndexOf(2)).toBe(6);
+  expect(buf.lastIndexOf(2)).toBe(6);
+  expect(buf.lastIndexOf(23)).toBe(0);
+  expect(buf.lastIndexOf(3)).toBe(7);
+  buf.push([0, 5]);
+  expect(buf.lastIndexOf(0)).toBe(8);
+  expect(buf.lastIndexOf(5)).toBe(9);
+  expect(buf.lastIndexOf([0, 2])).toBe(-1);
+  expect(buf.lastIndexOf([0, 5])).toBe(8);
+  expect(buf.lastIndexOf([0, 1])).toBe(3);
+  expect(buf.lastIndexOf([3, 0])).toBe(7);
+  buf.push([5]);
+  buf.push([5]);
+  buf.push([6]);
+  buf.push([0]);
+  expect(buf.lastIndexOf(6)).toBe(12);
+  expect(buf.lastIndexOf(5)).toBe(11);
+  expect(buf.lastIndexOf([0])).toBe(13);
+  expect(buf.lastIndexOf([5, 5])).toBe(10);
+  expect(buf.lastIndexOf([5, 5, 6])).toBe(10);
+  expect(buf.lastIndexOf([5, 5, 6, 0])).toBe(10);
+  expect(buf.lastIndexOf([5, 5, 5, 6, 0])).toBe(9);
+});
+
 test('last-index-of-bad-param', () => {
   const buf = new BufferCollection();
   buf.push('abcd');
@@ -288,6 +346,16 @@ test('includes', () => {
   expect(buf.includes('fuvz')).toBe(true);
   expect(buf.includes('fuvz1')).toBe(true);
   expect(buf.includes('fuvz11')).toBe(false);
+
+  expect(buf.includes('abc', 0)).toBe(true);
+  expect(buf.includes('abc', 1)).toBe(false);
+  expect(buf.includes('bcdxd', 0)).toBe(true);
+  expect(buf.includes('bcdxd', 1)).toBe(true);
+  expect(buf.includes('bcdxd', 2)).toBe(false);
+  expect(buf.includes('bcdxd', 3)).toBe(false);
+  expect(buf.includes('vz1', 9)).toBe(true);
+  expect(buf.includes('vz1', 10)).toBe(true);
+  expect(buf.includes('vz1', 11)).toBe(false);
 });
 
 test('compact', () => {
@@ -323,12 +391,19 @@ test('fill', () => {
   expect(buf.toString()).toBe('ab12xyxyx34512');
   buf.fill('xy', 11, 14);
   expect(buf.toString()).toBe('ab12xyxyx34xyx');
+  buf.fill('qw', 11, 10);
+  expect(buf.toString()).toBe('ab12xyxyx34xyx');
   expect(() => buf.fill('a', -1)).toThrowError();
   buf.fill('');
   expect(buf.length).toBe(14);
   expect(buf.count).toBe(4);
   expect(() => buf.fill('a', 0, -1)).toThrowError();
   expect(() => buf.fill('a', 0, 15)).toThrowError();
+  expect(() => buf.fill('a', 0, -1)).toThrowError();
+  expect(() => buf.fill('a', -1)).toThrowError();
+  expect(() => buf.fill('a', 15)).toThrowError();
+  expect(() => buf.fill('a', -1, 10)).toThrowError();
+  expect(() => buf.fill('a', 15, 20)).toThrowError();
 });
 
 test('get', () => {
@@ -586,6 +661,11 @@ test('swap16', () => {
   expect(() => buf.swap16()).toThrowError();
 });
 
+test('swap16 empty', () => {
+  const buf = new BufferCollection();
+  expect(buf.swap16().length).toBe(0);
+});
+
 test('swap32', () => {
   const buf = new BufferCollection();
   buf.push(Buffer.from([1, 2, 3]));
@@ -602,6 +682,11 @@ test('swap32', () => {
   expect(() => buf.swap32()).toThrowError();
 });
 
+test('swap32 empty', () => {
+  const buf = new BufferCollection();
+  expect(buf.swap32().length).toBe(0);
+});
+
 test('swap64', () => {
   const buf = new BufferCollection();
   buf.push(Buffer.from([1, 2, 3]));
@@ -616,4 +701,9 @@ test('swap64', () => {
 
   buf.push(Buffer.from([255]));
   expect(() => buf.swap64()).toThrowError();
+});
+
+test('swap64 empty', () => {
+  const buf = new BufferCollection();
+  expect(buf.swap64().length).toBe(0);
 });

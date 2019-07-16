@@ -200,13 +200,10 @@ export default class BufferCollection {
     if (len < 1) {
       return false;
     }
-    if (this._length < len) {
+    if (len > this._length) {
       return false;
     }
-    const position = this._getPositionByByteOffset(len - 1);
-    if (position === null) {
-      return false;
-    }
+    const position = this._getPositionByByteOffset(len - 1) as IPosition;
     const lastKey = position.key;
     const ret = Buffer.concat(this._bufs, len);
 
@@ -269,10 +266,7 @@ export default class BufferCollection {
       return -1;
     }
 
-    const position = this._getPositionByByteOffset(startOffset);
-    if (position === null) {
-      return -1;
-    }
+    const position = this._getPositionByByteOffset(startOffset) as IPosition;
     let globalOffset = startOffset;
     let offset = position.offset;
     for (let currentBufferKey = position.key; currentBufferKey < this._bufs.length; currentBufferKey++) {
@@ -336,7 +330,7 @@ export default class BufferCollection {
     return this.indexOf(value, startOffset) !== -1;
   }
 
-  fill (value: any, offset: number = 0, end: number | null = null, encoding: BufferEncoding = 'ascii'): BufferCollection {
+  fill (value: BufferFromTypes | Buffer, offset: number = 0, end: number | null = null): BufferCollection {
     if (offset < 0) {
       throw new RangeError('Index out of range');
     }
@@ -346,7 +340,7 @@ export default class BufferCollection {
     if (end !== null && end > 0 && offset >= end) {
       return this;
     }
-    const buf = Buffer.from(value, encoding);
+    const buf = Buffer.from(value as any);
     if (buf.length === 0) {
       return this;
     }
@@ -364,9 +358,6 @@ export default class BufferCollection {
         throw new RangeError('Index out of range');
       }
       endPosition = this._getPositionByByteOffset(end);
-      if (endPosition === null) {
-        throw new RangeError('Index out of range');
-      }
     }
 
     let bufOffset = 0;
@@ -386,7 +377,7 @@ export default class BufferCollection {
   push (obj: BufferFromTypes | Buffer | BufferCollection): BufferCollection {
     if (obj instanceof BufferCollection) {
       if (obj.length > 0) {
-        this._bufs.push(...obj._bufs);
+        this._bufs.push.apply(this._bufs, obj._bufs);
         this._length += obj._length;
       }
     } else if (obj instanceof Buffer) {
@@ -960,7 +951,7 @@ export default class BufferCollection {
     if (value < min || value > max) {
       throw new RangeError(`Out of bounds ${value} ${min} ${max}`);
     }
-    if (offset < 0 || offset + byteLength >= this._length) {
+    if (offset < 0 || offset + byteLength > this._length) {
       throw new RangeError('The value of "offset" is out of range.');
     }
 
@@ -993,8 +984,12 @@ export default class BufferCollection {
 
   _writeBytesBE (value: number, offset: number, byteLength: number, min: number, max: number): number {
     if (value < min || value > max) {
-      throw new Error('Out of bounds');
+      throw new RangeError(`Out of bounds ${value} ${min} ${max}`);
     }
+    if (offset < 0 || offset + byteLength > this._length) {
+      throw new RangeError('The value of "offset" is out of range.');
+    }
+
     const pos = new Array(byteLength);
     pos[0] = this._getPositionByByteOffset(offset);
     for (let i = 1; i < byteLength; i++) {

@@ -1,6 +1,6 @@
 import BufferCollection from '../lib/BufferCollection';
 /* global test, expect */
-const N = 1000;
+const N = 10000;
 
 function randInt (min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
