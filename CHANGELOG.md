@@ -1,3 +1,7 @@
+## 3.0.1 (November 24, 2019)
+* Fix main entrypoint in package.json
+* Updated dependencies
+
 ## 3.0.0 (July 16, 2019)
 
 * Migrate to TypeScript
